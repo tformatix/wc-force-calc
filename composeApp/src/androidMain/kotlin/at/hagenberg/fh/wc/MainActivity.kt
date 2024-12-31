@@ -9,7 +9,6 @@ import at.hagenberg.fh.wc.viewmodel.InclineViewModel
 
 class MainActivity : ComponentActivity() {
     private val accelerometerSensor = getAccelerometerSensor() as AndroidAccelerometerSensor
-    private val viewModel = InclineViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,20 +16,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             App(accelerometerSensor)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (viewModel.isMeasuring.value) {
-            viewModel.startMeasuring(accelerometerSensor)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (viewModel.isMeasuring.value) {
-            accelerometerSensor.stopListening()
         }
     }
 }
