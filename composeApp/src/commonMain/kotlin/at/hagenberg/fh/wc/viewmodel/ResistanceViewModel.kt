@@ -6,11 +6,11 @@ import kotlin.math.PI
 import kotlin.math.sin
 
 class ResistanceViewModel: ViewModel() {
-    fun getRollingResistance(weight: Double, surface: Surface): Double {
-        return surface.getRollingResistanceCoefficient() * weight
+    fun getRollingResistance(weightTons: Double, surface: Surface): Double {
+        return surface.getRollingResistanceCoefficient() * weightTons * 10
     }
 
-    fun getGradientResistance(weight: Double, gradient: Double): Double {
-        return weight * sin(gradient * PI / 180)
+    fun getInclineResidence(weightTons: Double, inclineGrad: Double): Double {
+        return weightTons * sin(inclineGrad * PI / 180) * 10
     }
 }

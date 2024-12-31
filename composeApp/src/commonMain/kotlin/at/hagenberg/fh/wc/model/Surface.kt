@@ -1,7 +1,7 @@
 package at.hagenberg.fh.wc.model
 
 enum class Surface {
-    SOLID, GRASS, GRAVELY, LOOSE, MUD_OVER_AXLE, MUD_OVER_TYRE, MUD_UP_TO_BODY;
+    SOLID, GRASS, GRAVELY, LOOSE, MUD_OVER_AXLE, MUD_OVER_TYRE, MUD_UP_TO_BODY, RAIL;
 
     fun getRollingResistanceCoefficient(): Double {
         return when (this) {
@@ -12,6 +12,7 @@ enum class Surface {
             MUD_OVER_AXLE -> 1.0
             MUD_OVER_TYRE -> 2.0
             MUD_UP_TO_BODY -> 3.0
+            RAIL -> 0.003
         }
     }
 }
