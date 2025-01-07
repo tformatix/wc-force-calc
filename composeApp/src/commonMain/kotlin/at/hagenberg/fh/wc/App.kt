@@ -7,15 +7,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ExposedDropdownMenuBox
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import at.hagenberg.fh.wc.model.Surface
+import at.hagenberg.fh.wc.model.Vehicle
+import at.hagenberg.fh.wc.ui.CustomDropdown
 import at.hagenberg.fh.wc.utils.toString
 import at.hagenberg.fh.wc.viewmodel.AngleViewModel
 import at.hagenberg.fh.wc.viewmodel.ResistanceViewModel
@@ -44,10 +41,9 @@ fun App(
     resistanceViewModel: ResistanceViewModel = getViewModel(key = "app",
         factory = viewModelFactory { ResistanceViewModel() })
 ) {
-    var weight by remember { mutableStateOf<Int?>(null) }
-
+    var vehicle by remember { mutableStateOf(Vehicle.CAR) }
+    var weight by remember { mutableStateOf(vehicle.weight) }
     var surface by remember { mutableStateOf(Surface.SOLID) }
-    var surfaceDropdownExpanded by remember { mutableStateOf(false) }
 
     val isAngleMeasuring by angleViewModel.isMeasuring.collectAsState()
     val angle by angleViewModel.angle.collectAsState()
@@ -62,57 +58,53 @@ fun App(
             Modifier.fillMaxWidth().padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            CustomDropdown(
+                title = "Fahrzeug",
+                values = Vehicle.entries,
+                value = vehicle,
+                onValueChanged = {
+                    vehicle = it
+                    weight = it.weight
+                },
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = weight?.toString() ?: "",
-                onValueChange = { weight = it.toIntOrNull() },
-                label = { Text("Gewicht (t)") },
+                onValueChange = {
+                    vehicle = Vehicle.CUSTOM
+                    weight = it.toIntOrNull()
+                },
+                label = { Text("Gewicht (kN)") },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             )
             Spacer(modifier = Modifier.height(16.dp))
-            ExposedDropdownMenuBox(
-                modifier = Modifier.fillMaxWidth(),
-                expanded = surfaceDropdownExpanded,
-                onExpandedChange = { surfaceDropdownExpanded = it },
-            ) {
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { surfaceDropdownExpanded = true },
-                ) {
-                    Text("Untergrund: $surface")
-                    Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
-                }
-                ExposedDropdownMenu(expanded = surfaceDropdownExpanded,
-                    onDismissRequest = { surfaceDropdownExpanded = false }) {
-                    Surface.entries.forEach { surfaceOption ->
-                        DropdownMenuItem(onClick = {
-                            surface = surfaceOption
-                            surfaceDropdownExpanded = false
-                        }) {
-                            Text(text = surfaceOption.toString())
-                        }
-                    }
-                }
-            }
+            CustomDropdown(
+                title = "Untergrund",
+                values = Surface.entries,
+                value = surface,
+                onValueChanged = { surface = it },
+            )
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 readOnly = isAngleMeasuring,
                 value = angle?.incline?.toString() ?: "",
-                onValueChange = {
-                    angleViewModel.setCustomIncline(it.toIntOrNull())
-                },
+                onValueChange = { angleViewModel.setCustomIncline(it.toIntOrNull()) },
                 label = { Text("Steigung (°)") },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                if (isAngleMeasuring) {
-                    angleViewModel.stopMeasuring(sensor)
-                } else {
-                    angleViewModel.startMeasuring(sensor)
-                }
-            }) {
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    if (isAngleMeasuring) {
+                        angleViewModel.stopMeasuring(sensor)
+                    } else {
+                        angleViewModel.startMeasuring(sensor)
+                    }
+                },
+            ) {
                 Text(if (isAngleMeasuring) "Messung stoppen" else "Messung starten")
             }
             Spacer(modifier = Modifier.height(16.dp))
