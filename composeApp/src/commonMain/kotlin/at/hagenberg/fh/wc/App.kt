@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -23,9 +24,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import at.hagenberg.fh.wc.model.Angle
 import at.hagenberg.fh.wc.model.Surface
+import at.hagenberg.fh.wc.utils.toString
 import at.hagenberg.fh.wc.viewmodel.AngleViewModel
 import at.hagenberg.fh.wc.viewmodel.ResistanceViewModel
 import dev.icerock.moko.mvvm.compose.getViewModel
@@ -42,19 +44,17 @@ fun App(
     resistanceViewModel: ResistanceViewModel = getViewModel(key = "app",
         factory = viewModelFactory { ResistanceViewModel() })
 ) {
-    var weight by remember { mutableStateOf<Double?>(null) }
+    var weight by remember { mutableStateOf<Int?>(null) }
 
     var surface by remember { mutableStateOf(Surface.SOLID) }
     var surfaceDropdownExpanded by remember { mutableStateOf(false) }
 
     val isAngleMeasuring by angleViewModel.isMeasuring.collectAsState()
-    val measuredAngle by angleViewModel.angle.collectAsState()
-    var customAngle by remember { mutableStateOf<Angle?>(null) }
-    val angle = customAngle ?: measuredAngle
+    val angle by angleViewModel.angle.collectAsState()
 
-    val rollingResistance = resistanceViewModel.getRollingResistance(weight ?: 0.0, surface)
+    val rollingResistance = resistanceViewModel.getRollingResistance(weight ?: 0, surface)
     val inclineResistance =
-        resistanceViewModel.getInclineResidence(weight ?: 0.0, angle?.incline ?: 0.0)
+        resistanceViewModel.getInclineResidence(weight ?: 0, angle?.incline ?: 0)
     val totalResistance = rollingResistance + inclineResistance
 
     MaterialTheme {
@@ -62,10 +62,13 @@ fun App(
             Modifier.fillMaxWidth().padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextField(modifier = Modifier.fillMaxWidth(),
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = weight?.toString() ?: "",
-                onValueChange = { weight = it.toDoubleOrNull() },
-                label = { Text("Weight (t)") })
+                onValueChange = { weight = it.toIntOrNull() },
+                label = { Text("Gewicht (t)") },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            )
             Spacer(modifier = Modifier.height(16.dp))
             ExposedDropdownMenuBox(
                 modifier = Modifier.fillMaxWidth(),
@@ -76,7 +79,7 @@ fun App(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { surfaceDropdownExpanded = true },
                 ) {
-                    Text("Surface: ${surface.name}")
+                    Text("Untergrund: $surface")
                     Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                 }
                 ExposedDropdownMenu(expanded = surfaceDropdownExpanded,
@@ -86,50 +89,50 @@ fun App(
                             surface = surfaceOption
                             surfaceDropdownExpanded = false
                         }) {
-                            Text(text = surfaceOption.name)
+                            Text(text = surfaceOption.toString())
                         }
                     }
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            TextField(modifier = Modifier.fillMaxWidth(),
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
                 readOnly = isAngleMeasuring,
                 value = angle?.incline?.toString() ?: "",
                 onValueChange = {
-                    val convertedAngle = it.toDoubleOrNull()
-                    customAngle =
-                        if (convertedAngle == null) null else Angle(convertedAngle, convertedAngle)
+                    angleViewModel.setCustomIncline(it.toIntOrNull())
                 },
-                label = { Text("Incline (°)") })
+                label = { Text("Steigung (°)") },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 if (isAngleMeasuring) {
                     angleViewModel.stopMeasuring(sensor)
                 } else {
-                    customAngle = null
                     angleViewModel.startMeasuring(sensor)
                 }
             }) {
-                Text(if (isAngleMeasuring) "Stop Measuring" else "Measure the Incline!")
+                Text(if (isAngleMeasuring) "Messung stoppen" else "Messung starten")
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "Angle: ${angle ?: "N/A"}",
+                "Winkel: ${angle ?: "N/A"}",
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "Rolling Resistance: ${rollingResistance} kN",
+                "Rollwiderstand: ${rollingResistance.toString(2)} kN",
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "Gradient Resistance: ${inclineResistance} kN",
+                "Steigungswiderstand: ${inclineResistance.toString(2)} kN",
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "Total Resistance: ${totalResistance} kN",
+                "Gesamtwiderstand: ${totalResistance.toString(2)} kN",
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.h5
             )

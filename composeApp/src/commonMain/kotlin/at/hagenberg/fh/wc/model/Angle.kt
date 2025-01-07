@@ -6,15 +6,15 @@ import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.math.sqrt
 
-data class Angle(val pitch: Double, val roll: Double) {
+data class Angle(val pitch: Int, val roll: Int) {
     companion object {
         fun fromAccelerometerValues(x: Float, y: Float, z: Float): Angle {
             val pitch = abs( atan2(y, sqrt(x * x + z * z)))
             val roll = abs(atan2(x, sqrt(y * y + z * z)))
 
             return Angle(
-                pitch = toDegrees(pitch),
-                roll = toDegrees(roll),
+                pitch = toDegrees(pitch).toInt(),
+                roll = toDegrees(roll).toInt(),
             )
         }
 
@@ -23,9 +23,9 @@ data class Angle(val pitch: Double, val roll: Double) {
         }
     }
 
-    val incline: Double get() = max(pitch, roll)
+    val incline: Int get() = max(pitch, roll)
 
     override fun toString(): String {
-        return "Pitch: ${pitch.toInt()}°, Roll: ${roll.toInt()}°"
+        return "Rollen: ${pitch}°, Nicken: ${roll}°"
     }
 }

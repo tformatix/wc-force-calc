@@ -15,4 +15,17 @@ enum class Surface {
             RAIL -> 0.003
         }
     }
+
+    override fun toString(): String {
+        return when (this) {
+            SOLID -> "Asphalt, Beton"
+            GRASS -> "Gras, Wiese"
+            GRAVELY -> "Schotter"
+            LOOSE -> "Lockerer Boden, Sand"
+            MUD_OVER_AXLE -> "Über Achse im Schlamm"
+            MUD_OVER_TYRE -> "Über Räder im Schlamm"
+            MUD_UP_TO_BODY -> "Bis Aufbau im Schlamm"
+            RAIL -> "Schiene"
+        }
+    }
 }

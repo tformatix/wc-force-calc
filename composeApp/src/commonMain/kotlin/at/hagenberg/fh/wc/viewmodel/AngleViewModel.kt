@@ -24,4 +24,8 @@ class AngleViewModel : ViewModel() {
         _isMeasuring.value = false
         sensor.stopListening()
     }
+
+    fun setCustomIncline(incline: Int?) {
+        _angle.value = if(incline != null) Angle(incline, incline) else null
+    }
 }
