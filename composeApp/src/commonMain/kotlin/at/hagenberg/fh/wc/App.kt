@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +31,10 @@ fun App(sensor: AccelerometerSensor) {
 
     MaterialTheme {
         Column(
-            Modifier.fillMaxWidth().padding(32.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(32.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row {
@@ -39,7 +44,7 @@ fun App(sensor: AccelerometerSensor) {
                         currentScreen = 0
                     },
                 ) {
-                    Text("Kräfteberechnung")
+                    Text("Kräfte")
                 }
                 Spacer(Modifier.width(16.dp))
                 Button(
@@ -51,7 +56,7 @@ fun App(sensor: AccelerometerSensor) {
                     Text("Rettungsblatt")
                 }
             }
-            Spacer(Modifier.height(24.dp))
+            Divider(Modifier.padding(vertical = 16.dp))
             when (currentScreen) {
                 0 -> ResistanceScreen(sensor)
                 1 -> RescueSheetScreen()

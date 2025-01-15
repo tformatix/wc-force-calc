@@ -4,4 +4,7 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 
 
 class LicencePlateViewModel: ViewModel() {
+    fun searchLicencePlate(authority: String, number: String) {
+
+    }
 }
