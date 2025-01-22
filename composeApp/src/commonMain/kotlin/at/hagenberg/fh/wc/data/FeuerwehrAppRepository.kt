@@ -2,13 +2,13 @@ package at.hagenberg.fh.wc.data
 
 import at.hagenberg.fh.wc.FEUERWEHR_APP_TOKEN
 import at.hagenberg.fh.wc.model.rescue.sheet.FeuerwehrAppCar
-import at.hagenberg.fh.wc.model.rescue.sheet.Powertrain
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.cookies.AcceptAllCookiesStorage
 import io.ktor.client.plugins.cookies.HttpCookies
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.parameters
 
 private const val BASE_URL = "https://www.feuerwehrapp.at/int"
@@ -35,7 +35,6 @@ class FeuerwehrAppRepository {
             }
         )
 
-        // TODO: parse body
-        return FeuerwehrAppCar("Opel", Powertrain.LNG)
+        return FeuerwehrAppCar.parseFromHtml(response.bodyAsText())
     }
 }

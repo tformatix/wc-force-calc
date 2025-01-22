@@ -13,19 +13,17 @@ enum class Powertrain(val nameForEuroRescueApp: String) {
     HYBRID("Hybrid"),
     LNG("LNG");
 
-    private companion object {
-
-    }
-
-    fun from(input: String): Powertrain {
-        return when {
-            input.contains(CNG.toString()) -> CNG
-            input == FEUERWEHR_APP_POWERTRAIN_DIESEL -> DIESEL
-            input == FEUERWEHR_APP_POWERTRAIN_ELECTRIC -> ELECTRIC
-            input == FEUERWEHR_APP_POWERTRAIN_GASOLINE -> GASOLINE
-            input.contains(FEUERWEHR_APP_POWERTRAIN_HYBRID) -> HYBRID
-            input.contains(LNG.toString()) -> LNG
-            else -> throw IllegalArgumentException("No enum constant found for value: $input")
+    companion object {
+        fun from(input: String): Powertrain {
+            return when {
+                input.contains(CNG.toString()) -> CNG
+                input == FEUERWEHR_APP_POWERTRAIN_DIESEL -> DIESEL
+                input == FEUERWEHR_APP_POWERTRAIN_ELECTRIC -> ELECTRIC
+                input == FEUERWEHR_APP_POWERTRAIN_GASOLINE -> GASOLINE
+                input.contains(FEUERWEHR_APP_POWERTRAIN_HYBRID) -> HYBRID
+                input.contains(LNG.toString()) -> LNG
+                else -> throw IllegalArgumentException("No enum constant found for value: $input")
+            }
         }
     }
 
