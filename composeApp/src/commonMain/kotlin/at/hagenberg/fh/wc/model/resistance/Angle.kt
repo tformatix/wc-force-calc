@@ -1,4 +1,4 @@
-package at.hagenberg.fh.wc.model
+package at.hagenberg.fh.wc.model.resistance
 
 import kotlin.math.PI
 import kotlin.math.abs

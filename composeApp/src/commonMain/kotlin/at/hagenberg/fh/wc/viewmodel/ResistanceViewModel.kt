@@ -1,6 +1,6 @@
 package at.hagenberg.fh.wc.viewmodel
 
-import at.hagenberg.fh.wc.model.Surface
+import at.hagenberg.fh.wc.model.resistance.Surface
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlin.math.PI
 import kotlin.math.sin

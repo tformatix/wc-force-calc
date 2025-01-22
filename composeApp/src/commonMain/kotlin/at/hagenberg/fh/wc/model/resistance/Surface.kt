@@ -1,4 +1,4 @@
-package at.hagenberg.fh.wc.model
+package at.hagenberg.fh.wc.model.resistance
 
 enum class Surface(val rollingResidenceCoefficient: Double, private val title: String) {
     SOLID(1.0 / 25.0, "Asphalt, Beton"),

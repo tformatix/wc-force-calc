@@ -1,4 +1,4 @@
-package at.hagenberg.fh.wc.model
+package at.hagenberg.fh.wc.model.resistance
 
 enum class Vehicle(val weight: Int?, private val title: String) {
     CAR(15, "PKW"),

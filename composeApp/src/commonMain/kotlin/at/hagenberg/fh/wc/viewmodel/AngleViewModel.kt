@@ -1,7 +1,7 @@
 package at.hagenberg.fh.wc.viewmodel
 
 import at.hagenberg.fh.wc.AccelerometerSensor
-import at.hagenberg.fh.wc.model.Angle
+import at.hagenberg.fh.wc.model.resistance.Angle
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

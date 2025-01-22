@@ -46,6 +46,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.client.logging)
             implementation(libs.moko.mvvm.core)
             implementation(libs.moko.mvvm.compose)
         }

@@ -20,8 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import at.hagenberg.fh.wc.model.Surface
-import at.hagenberg.fh.wc.model.Vehicle
+import at.hagenberg.fh.wc.model.resistance.Surface
+import at.hagenberg.fh.wc.model.resistance.Vehicle
 import at.hagenberg.fh.wc.utils.toString
 import at.hagenberg.fh.wc.viewmodel.AngleViewModel
 import at.hagenberg.fh.wc.viewmodel.ResistanceViewModel
