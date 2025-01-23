@@ -1,6 +1,6 @@
 package at.hagenberg.fh.wc.model.rescue.sheet
 
-import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 
 private val FEUERWEHR_APP_FIELDS = mapOf(
     "Antrieb" to "powertrain",
@@ -14,7 +14,7 @@ private val FEUERWEHR_APP_FIELDS = mapOf(
     "Version" to "version"
 )
 
-private const val FEUERWEHR_APP_PATTERN = "<td>(.*?)</td>\\s*<td><h3>(.*?)</h3></td>"
+private const val FEUERWEHR_APP_PATTERN = "<td>(.*?)</td>\\s*<td>(<h3>)?(.*?)(</h3>)?</td>"
 
 data class FeuerwehrAppCar(
     val powertrain: Powertrain?,
@@ -22,34 +22,42 @@ data class FeuerwehrAppCar(
     val model: String?,
     val type: String?,
     val maxTotalMass: Int?,
-    val initialRegistrationDate: Instant?,
+    val initialRegistrationDate: LocalDate?,
     val vin: String?,
     val variant: String?,
     val version: String?,
 ) {
     companion object {
-        fun parseFromHtml(html: String): FeuerwehrAppCar {
-            val values = mutableMapOf<String, String>()
+        fun parseFromHtml(html: String): FeuerwehrAppCar? {
+            try {
+                val values = mutableMapOf<String, String>()
 
-            Regex(FEUERWEHR_APP_PATTERN).findAll(html).forEach { matchResult ->
-                val key = matchResult.groupValues[1]
-                val value = matchResult.groupValues[2]
-                if (FEUERWEHR_APP_FIELDS.containsKey(key)) {
-                    values[FEUERWEHR_APP_FIELDS[key]!!] = value
+                Regex(FEUERWEHR_APP_PATTERN).findAll(html).forEach { matchResult ->
+                    val key = matchResult.groupValues[1]
+                    val value = matchResult.groupValues[3]
+                    if (FEUERWEHR_APP_FIELDS.containsKey(key)) {
+                        values[FEUERWEHR_APP_FIELDS[key]!!] = value
+                    }
                 }
-            }
 
-            return FeuerwehrAppCar(
-                powertrain = values["powertrain"]?.let { Powertrain.from(it) },
-                make = values["make"],
-                model = values["model"],
-                type = values["type"],
-                maxTotalMass = values["maxTotalMass"]?.toInt(),
-                initialRegistrationDate = values["initialRegistrationDate"]?.let { Instant.parse(it) },
-                vin = values["vin"],
-                variant = values["variant"],
-                version = values["version"]
-            )
+                return FeuerwehrAppCar(
+                    powertrain = values["powertrain"]?.let {
+                        Powertrain.from(it)
+                    },
+                    make = values["make"],
+                    model = values["model"],
+                    type = values["type"],
+                    maxTotalMass = values["maxTotalMass"]?.toInt(),
+                    initialRegistrationDate = values["initialRegistrationDate"]?.let {
+                        LocalDate.parse(it)
+                    },
+                    vin = values["vin"],
+                    variant = values["variant"],
+                    version = values["version"]
+                )
+            } catch (e: Exception) {
+                return null
+            }
         }
     }
 }

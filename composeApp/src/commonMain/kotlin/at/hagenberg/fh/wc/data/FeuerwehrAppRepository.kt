@@ -18,7 +18,7 @@ private const val AUTHORITY_KEY = "plate_pref"
 private const val NUMBER_KEY = "plate_number"
 
 class FeuerwehrAppRepository {
-    suspend fun searchLicencePlate(authority: String, number: String): FeuerwehrAppCar {
+    suspend fun searchLicencePlate(authority: String, number: String): FeuerwehrAppCar? {
         val httpClient = HttpClient(CIO) {
             install(HttpCookies) {
                 storage = AcceptAllCookiesStorage()
@@ -27,7 +27,7 @@ class FeuerwehrAppRepository {
 
         httpClient.get(LOGIN_URL)
 
-        val response = httpClient.submitForm(
+        val httpResponse = httpClient.submitForm(
             url = LICENCE_PLATE_URL,
             formParameters = parameters {
                 append(AUTHORITY_KEY, authority)
@@ -35,6 +35,9 @@ class FeuerwehrAppRepository {
             }
         )
 
-        return FeuerwehrAppCar.parseFromHtml(response.bodyAsText())
+        val car = FeuerwehrAppCar.parseFromHtml(httpResponse.bodyAsText())
+        httpClient.close()
+
+        return car
     }
 }

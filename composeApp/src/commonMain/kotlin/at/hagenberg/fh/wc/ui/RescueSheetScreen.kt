@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -15,6 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import at.hagenberg.fh.wc.viewmodel.RescueSheetViewModel
 import dev.icerock.moko.mvvm.compose.getViewModel
@@ -30,6 +34,9 @@ fun RescueSheetScreen(
     var authority by remember { mutableStateOf("FW") }
     var number by remember { mutableStateOf("KFZ1") }
 
+    val isLoading by rescueSheetViewModel.isLoading.collectAsState()
+    val errorMessage by rescueSheetViewModel.errorMessage.collectAsState()
+    val feuerwehrAppCar by rescueSheetViewModel.feuerwehrAppCar.collectAsState()
     val euroRescueCar by rescueSheetViewModel.euroRescueCar.collectAsState()
 
     Column(
@@ -57,15 +64,35 @@ fun RescueSheetScreen(
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading,
             onClick = {
                 rescueSheetViewModel.findRescueSheet(authority, number)
             }
         ) {
             Text("Suchen")
         }
+        if (isLoading)
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        if (errorMessage != null)
+            Text(
+                errorMessage!!,
+                modifier = Modifier.padding(16.dp),
+                color = Color.Red
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+        feuerwehrAppCar?.let {
+            Text("Suchergebnis Feuerwehr App:", fontWeight = FontWeight.Bold)
+            Text("${it.make} - ${it.model}")
+            Text("${it.type} - ${it.powertrain}")
+            Text("${it.maxTotalMass} kg")
+            Text("${it.initialRegistrationDate}")
+            Text("${it.vin}")
+            Text("${it.variant}")
+            Text("${it.version}")
+        }
         Spacer(modifier = Modifier.height(16.dp))
         euroRescueCar?.let {
-            Text("Suchergebnis:")
+            Text("Suchergebnis Euro Rescue:", fontWeight = FontWeight.Bold)
             Text("${it.makeName} - ${it.name}")
             Text("${it.buildYearFrom} - ${it.buildYearUntil}")
             Text("${it.bodyType} - ${it.powertrain}")

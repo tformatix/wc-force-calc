@@ -23,7 +23,7 @@ class EuroRescueRepository {
             {
                 "query": "SELECT * FROM c WHERE UPPER(c.make_name) LIKE @make_name AND c.powertrain LIKE @powertrain",
                 "parameters": [
-                    { "name": "@make_name", "value": "${feuerwehrAppCar.carMake.uppercase()}" },
+                    { "name": "@make_name", "value": "${feuerwehrAppCar.make?.uppercase()}" },
                     { "name": "@powertrain", "value": "%${feuerwehrAppCar.powertrain}%" }
                 ]
             }
@@ -35,6 +35,7 @@ class EuroRescueRepository {
         }
 
         val euroRescueRoot: EuroRescueRoot = json.decodeFromString(httpResponse.body())
+        httpClient.close()
 
         // TODO: find right car
 
