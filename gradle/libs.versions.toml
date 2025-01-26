@@ -12,6 +12,7 @@ androidx-lifecycle = "2.8.3"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
 compose-multiplatform = "1.7.0"
+fuzzywuzzy = "0.9.0"
 junit = "4.13.2"
 kotlin = "2.0.21"
 moko-mvvm = "0.16.1"
@@ -39,6 +40,7 @@ ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 moko-mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "moko-mvvm" }
 moko-mvvm-compose = { module = "dev.icerock.moko:mvvm-compose", version.ref = "moko-mvvm" }
+willowtreeapps-fuzzywuzzy = { module = "com.willowtreeapps:fuzzywuzzy-kotlin", version.ref = "fuzzywuzzy" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

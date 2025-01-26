@@ -34,6 +34,7 @@ class RescueSheetViewModel : ViewModel() {
                 _feuerwehrAppCar.value =
                     feuerwehrAppRepository.searchLicencePlate(authority, number)
 
+                // TODO: Display multiple cars (e.g. in case of different body types)
                 _euroRescueCar.value = _feuerwehrAppCar.value?.let {
                     euroRescueRepository.findCar(it)
                 }

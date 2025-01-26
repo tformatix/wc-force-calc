@@ -1,5 +1,6 @@
 package at.hagenberg.fh.wc.model.rescue.sheet
 
+import at.hagenberg.fh.wc.model.rescue.sheet.serializer.AsciiStringSerializer
 import kotlinx.datetime.LocalDate
 
 private val FEUERWEHR_APP_FIELDS = mapOf(
@@ -45,7 +46,7 @@ data class FeuerwehrAppCar(
                         Powertrain.from(it)
                     },
                     make = values["make"],
-                    model = values["model"],
+                    model = AsciiStringSerializer.removeDiacritics(values["model"]!!),
                     type = values["type"],
                     maxTotalMass = values["maxTotalMass"]?.toInt(),
                     initialRegistrationDate = values["initialRegistrationDate"]?.let {

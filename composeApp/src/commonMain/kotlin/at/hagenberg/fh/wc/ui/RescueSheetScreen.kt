@@ -91,6 +91,7 @@ fun RescueSheetScreen(
             Text("${it.version}")
         }
         Spacer(modifier = Modifier.height(16.dp))
+        // TODO: Display multiple cars (e.g. in case of different body types)
         euroRescueCar?.let {
             Text("Suchergebnis Euro Rescue:", fontWeight = FontWeight.Bold)
             Text("${it.makeName} - ${it.name}")

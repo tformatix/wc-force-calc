@@ -50,6 +50,7 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.moko.mvvm.core)
             implementation(libs.moko.mvvm.compose)
+            implementation(libs.willowtreeapps.fuzzywuzzy)
         }
     }
 }
