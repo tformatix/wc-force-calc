@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import at.hagenberg.fh.wc.viewmodel.RescueSheetViewModel
@@ -84,9 +85,10 @@ fun RescueSheetScreen(
         feuerwehrAppCar?.let {
             Divider(Modifier.padding(vertical = 16.dp))
             Text(
-                "Feuerwehr App",
+                "Information der Kennzeichenabfrage",
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(16.dp))
             FeuerwehrAppCarWidget(it)
@@ -94,9 +96,10 @@ fun RescueSheetScreen(
         euroRescueCars?.let {
             Divider(Modifier.padding(vertical = 16.dp))
             Text(
-                "Euro Rescue",
+                "Verfügbare Rettungskarten",
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center
             )
             it.map { car ->
                 Spacer(modifier = Modifier.height(16.dp))

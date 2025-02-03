@@ -18,5 +18,6 @@ data class EuroRescueCar(
     @SerialName("build_year_from") @Serializable(with = StringToIntSerializer::class) val buildYearFrom: Int,
     @SerialName("doors") val doors: String,
     @SerialName("powertrain") val powertrain: String,
-    @SerialName("documents") val documents: List<EuroRescueCarDocument>
+    @SerialName("documents") val documents: List<EuroRescueCarDocument>,
+    @SerialName("picture_url") val pictureUrl: String? = null
 )
