@@ -20,7 +20,7 @@ class EuroRescueRepository {
         ignoreUnknownKeys = true
     }
 
-    suspend fun findCar(feuerwehrAppCar: FeuerwehrAppCar): EuroRescueCar? {
+    suspend fun findCar(feuerwehrAppCar: FeuerwehrAppCar): List<EuroRescueCar> {
         val feuerwehrAppCarMake = requireNotNull(feuerwehrAppCar.make)
         val feuerwehrAppCarModel = requireNotNull(feuerwehrAppCar.model)
         val feuerwehrAppCarInitialRegistrationYear =
@@ -64,7 +64,6 @@ class EuroRescueRepository {
             matchingScorePartialRatio >= FUZZY_SEARCH_THRESHOLD || matchingScoreTokenSetRatio >= FUZZY_SEARCH_THRESHOLD
         }
 
-        // TODO: Return multiple cars (e.g. in case of different body types)
-        return carsWithHighestMatch.firstOrNull()
+        return carsWithHighestMatch
     }
 }

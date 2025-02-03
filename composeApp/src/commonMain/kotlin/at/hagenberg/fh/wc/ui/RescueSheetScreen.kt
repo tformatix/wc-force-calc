@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import at.hagenberg.fh.wc.viewmodel.RescueSheetViewModel
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
@@ -37,7 +39,7 @@ fun RescueSheetScreen(
     val isLoading by rescueSheetViewModel.isLoading.collectAsState()
     val errorMessage by rescueSheetViewModel.errorMessage.collectAsState()
     val feuerwehrAppCar by rescueSheetViewModel.feuerwehrAppCar.collectAsState()
-    val euroRescueCar by rescueSheetViewModel.euroRescueCar.collectAsState()
+    val euroRescueCars by rescueSheetViewModel.euroRescueCars.collectAsState()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -79,25 +81,27 @@ fun RescueSheetScreen(
                 modifier = Modifier.padding(16.dp),
                 color = Color.Red
             )
-        Spacer(modifier = Modifier.height(16.dp))
         feuerwehrAppCar?.let {
-            Text("Suchergebnis Feuerwehr App:", fontWeight = FontWeight.Bold)
-            Text("${it.make} - ${it.model}")
-            Text("${it.type} - ${it.powertrain}")
-            Text("${it.maxTotalMass} kg")
-            Text("${it.initialRegistrationDate}")
-            Text("${it.vin}")
-            Text("${it.variant}")
-            Text("${it.version}")
+            Divider(Modifier.padding(vertical = 16.dp))
+            Text(
+                "Feuerwehr App",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            FeuerwehrAppCarWidget(it)
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        // TODO: Display multiple cars (e.g. in case of different body types)
-        euroRescueCar?.let {
-            Text("Suchergebnis Euro Rescue:", fontWeight = FontWeight.Bold)
-            Text("${it.makeName} - ${it.name}")
-            Text("${it.buildYearFrom} - ${it.buildYearUntil}")
-            Text("${it.bodyType} - ${it.powertrain}")
-            Text("${it.doors} Türen")
+        euroRescueCars?.let {
+            Divider(Modifier.padding(vertical = 16.dp))
+            Text(
+                "Euro Rescue",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+            it.map { car ->
+                Spacer(modifier = Modifier.height(16.dp))
+                EuroRescueCarWidget(car)
+            }
         }
     }
 }

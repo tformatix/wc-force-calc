@@ -24,18 +24,21 @@ class RescueSheetViewModel : ViewModel() {
     private val _feuerwehrAppCar = MutableStateFlow<FeuerwehrAppCar?>(null)
     val feuerwehrAppCar: StateFlow<FeuerwehrAppCar?> get() = _feuerwehrAppCar
 
-    private val _euroRescueCar = MutableStateFlow<EuroRescueCar?>(null)
-    val euroRescueCar: StateFlow<EuroRescueCar?> get() = _euroRescueCar
+    private val _euroRescueCars = MutableStateFlow<List<EuroRescueCar>?>(null)
+    val euroRescueCars: StateFlow<List<EuroRescueCar>?> get() = _euroRescueCars
 
     fun findRescueSheet(authority: String, number: String) {
         _isLoading.value = true
+        _errorMessage.value = null
+        _feuerwehrAppCar.value = null
+        _euroRescueCars.value = null
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _feuerwehrAppCar.value =
                     feuerwehrAppRepository.searchLicencePlate(authority, number)
 
-                // TODO: Display multiple cars (e.g. in case of different body types)
-                _euroRescueCar.value = _feuerwehrAppCar.value?.let {
+                _euroRescueCars.value = _feuerwehrAppCar.value?.let {
                     euroRescueRepository.findCar(it)
                 }
                 _isLoading.value = false
