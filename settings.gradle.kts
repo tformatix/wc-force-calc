@@ -1,4 +1,4 @@
-rootProject.name = "ForceCalc"
+rootProject.name = "ResQTools"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
