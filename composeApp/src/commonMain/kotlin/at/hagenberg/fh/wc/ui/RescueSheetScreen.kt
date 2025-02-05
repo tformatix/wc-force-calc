@@ -1,15 +1,22 @@
 package at.hagenberg.fh.wc.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -45,34 +52,52 @@ fun RescueSheetScreen(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextField(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            value = authority,
-            onValueChange = {
-                authority = it
-            },
-            label = { Text("Behörde") },
-            placeholder = { Text("FW") }
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = number,
-            onValueChange = {
-                number = it
-            },
-            label = { Text("Vormerkzeichen") },
-            placeholder = { Text("KFZ1") }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            modifier = Modifier.fillMaxWidth(),
-            enabled = !isLoading,
-            onClick = {
-                rescueSheetViewModel.findRescueSheet(authority, number)
+        {
+            TextField(
+                modifier = Modifier
+                    .weight(0.75f)
+                    .fillMaxHeight()
+                    .padding(start = 8.dp),
+                value = authority,
+                onValueChange = {
+                    authority = it
+                },
+                label = { Text("Behörde") },
+                placeholder = { Text("FW") }
+            )
+            TextField(
+                modifier = Modifier
+                    .weight(1.75f)
+                    .fillMaxHeight()
+                    .padding(start = 8.dp),
+                value = number,
+                onValueChange = {
+                    number = it
+                },
+                label = { Text("Vormerkzeichen") },
+                placeholder = { Text("KFZ1") }
+            )
+            Button(
+                modifier = Modifier
+                    .weight(0.5f)
+                    .padding(start = 8.dp),
+                enabled = !isLoading,
+                onClick = {
+                    rescueSheetViewModel.findRescueSheet(authority, number)
+                }
+            ) {
+                Icon(
+                    modifier = Modifier.size(40.dp),
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search",
+                    tint = Color.White,
+                )
             }
-        ) {
-            Text("Suchen")
         }
         if (isLoading)
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
