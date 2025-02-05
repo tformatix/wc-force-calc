@@ -44,7 +44,12 @@ fun EuroRescueCarWidget(euroRescueCar: EuroRescueCar) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().border(
-            brush = Brush.linearGradient(listOf(Color.Red, Color.Blue)),
+            brush = Brush.linearGradient(
+                listOf(
+                    MaterialTheme.colors.primary,
+                    Color.Red
+                )
+            ),
             width = 2.dp,
             shape = RoundedCornerShape(20.dp)
         ).background(color = Color.White, shape = RoundedCornerShape(20.dp))
