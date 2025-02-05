@@ -69,7 +69,9 @@ fun EuroRescueCarWidget(euroRescueCar: EuroRescueCar) {
                 asyncPainterResource(data = pictureUrl)
             },
                 contentDescription = "Image of ${euroRescueCar.makeName} ${euroRescueCar.modelName}",
-                modifier = Modifier.weight(1f).fillMaxHeight(),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
                 onLoading = {
                     // Optional: e.g., a small CircularProgressIndicator
                     CircularProgressIndicator()

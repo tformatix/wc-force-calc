@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -85,14 +86,15 @@ fun RescueSheetScreen(
             Button(
                 modifier = Modifier
                     .weight(0.5f)
+                    .size(48.dp)
                     .padding(start = 8.dp),
+                shape = CircleShape,
                 enabled = !isLoading,
                 onClick = {
                     rescueSheetViewModel.findRescueSheet(authority, number)
                 }
             ) {
                 Icon(
-                    modifier = Modifier.size(40.dp),
                     imageVector = Icons.Default.Search,
                     contentDescription = "Search",
                     tint = Color.White,
