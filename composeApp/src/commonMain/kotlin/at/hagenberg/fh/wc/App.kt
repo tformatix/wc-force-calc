@@ -10,7 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,7 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App(sensor: AccelerometerSensor) {
     val navBarItems = listOf(
         NavBarItem(0, "Rettungsblatt", Icons.Default.Search) @Composable { RescueSheetScreen() },
-        NavBarItem(1, "Widerstand", Icons.Default.Edit) @Composable { ResistanceScreen(sensor) }
+        NavBarItem(1, "Widerstand", Icons.Default.Build) @Composable { ResistanceScreen(sensor) }
     )
     var selectedNavBarItem by remember { mutableStateOf(navBarItems.first()) }
 

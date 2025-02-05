@@ -99,6 +99,7 @@ fun RescueSheetScreen(
                 )
             }
         }
+        Spacer(modifier = Modifier.height(8.dp))
         if (isLoading)
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         if (errorMessage != null)
