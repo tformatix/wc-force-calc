@@ -61,7 +61,7 @@ fun RescueSheetScreen(
         {
             TextField(
                 modifier = Modifier
-                    .weight(0.75f)
+                    .weight(0.9f)
                     .fillMaxHeight()
                     .padding(start = 8.dp),
                 value = authority,
@@ -73,7 +73,7 @@ fun RescueSheetScreen(
             )
             TextField(
                 modifier = Modifier
-                    .weight(1.75f)
+                    .weight(1.6f)
                     .fillMaxHeight()
                     .padding(start = 8.dp),
                 value = number,
